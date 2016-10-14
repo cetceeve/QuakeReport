@@ -13,17 +13,14 @@ public class Earthquake {
 
     private String mDate;
 
-    public Earthquake(float magnitude, String place, String date) {
-        mMagnitude = Float.toString(magnitude);
+    public Earthquake(String magnitude, String place, String date) {
+        mMagnitude = magnitude;
         mPlace = place;
         mDate = date;
     }
 
     public String getMagnitude() {
-        if (mMagnitude !=null) {
             return mMagnitude;
-        }
-        return "error";
     }
 
     public String getPlace() {
