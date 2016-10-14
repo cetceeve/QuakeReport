@@ -3,7 +3,7 @@ package com.example.android.quakereport;
 /**
  * Created by fzeih on 11.10.2016.
  * this simple class creates Earthquake objects
- * it has three states that are the Earthquake magnitude, place and date all as Strings
+ * it has three states that are the Earthquake magnitude, place and date
  * the states can be accessed by three public methods and will return their values
  */
 
@@ -13,12 +13,12 @@ public class Earthquake {
 
     private String mPlace;
 
-    private String mDate;
+    private long mTime;
 
-    public Earthquake(String magnitude, String place, String date) {
+    public Earthquake(String magnitude, String place, long time) {
         mMagnitude = magnitude;
         mPlace = place;
-        mDate = date;
+        mTime = time;
     }
 
     public String getMagnitude() {
@@ -29,7 +29,7 @@ public class Earthquake {
         return mPlace;
     }
 
-    public String getDate() {
-        return mDate;
+    public long getTime() {
+        return mTime;
     }
 }

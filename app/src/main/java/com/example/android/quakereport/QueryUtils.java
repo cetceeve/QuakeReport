@@ -59,7 +59,7 @@ public final class QueryUtils {
 
                 String magnitude = earthquakeProperties.optString("mag");
                 String place = earthquakeProperties.optString("place");
-                String time = earthquakeProperties.optString("time");
+                long time = earthquakeProperties.getLong("time");
 
                 //new earthquake object is created and added to the earthquakes array list according to the current loop index
                 Earthquake newEarthquake = new Earthquake(magnitude, place, time);
