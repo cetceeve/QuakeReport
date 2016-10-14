@@ -52,7 +52,7 @@ public final class QueryUtils {
             JSONObject jsonRootObject = new JSONObject(SAMPLE_JSON_RESPONSE);
 
             JSONArray jsonArray = jsonRootObject.optJSONArray("features");
-            //loop threw features array and get magnitude and place from earthquake object
+            //loop threw features array and get magnitude, place, time and url from earthquake object
             for(int i=0; i < jsonArray.length(); i++){
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 JSONObject earthquakeProperties = jsonObject.getJSONObject("properties");

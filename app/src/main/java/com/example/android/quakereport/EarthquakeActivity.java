@@ -49,18 +49,22 @@ public class EarthquakeActivity extends AppCompatActivity {
             earthquakeListView.setAdapter(adapter);
         }
 
+        //ClickListener for the Earthquake objects in the List
         if (earthquakeListView != null) {
             earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //the clicked item is found by position and its url obtained
                     Earthquake earthquake = earthquakes.get(position);
                     String earthquakeUrl = earthquake.getUrl();
+                    //this method sends implicit intent to open a website
                     openWebPage(earthquakeUrl);
                 }
             });
         }
     }
 
+    //implicit intent to load a web page
     public void openWebPage(String url) {
         Uri webpage = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, webpage);

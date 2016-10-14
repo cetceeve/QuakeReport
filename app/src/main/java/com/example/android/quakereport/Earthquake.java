@@ -3,8 +3,8 @@ package com.example.android.quakereport;
 /**
  * Created by fzeih on 11.10.2016.
  * this simple class creates Earthquake objects
- * it has three states that are the Earthquake magnitude, place and date
- * the states can be accessed by three public methods and will return their values
+ * it has four states that are the Earthquake magnitude, place, date and specific url
+ * the states can be accessed by four public methods and will return their values
  */
 
 public class Earthquake {
