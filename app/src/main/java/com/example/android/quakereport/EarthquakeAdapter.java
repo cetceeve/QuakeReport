@@ -33,40 +33,48 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
 
         Earthquake currentEarthquake = getItem(position);
 
+        //get magnitude String for first TextView
         TextView magnitudeTextView = (TextView) listItemView.findViewById(R.id.text_view_magnitude);
         magnitudeTextView.setText(currentEarthquake.getMagnitude());
 
+        //get Earthquake Place
+        //separate place into offset and primary location by index of word "by"
         String place = currentEarthquake.getPlace();
         int index = place.indexOf("of");
         String offsetLocation = place.substring(0, index+2);
         String primaryLocation = place.substring(index+3);
 
+        //primary Location String for first TextView
         TextView primaryLocationTextView = (TextView) listItemView.findViewById(R.id.text_view_location_primary);
-        primaryLocationTextView.setText(offsetLocation);
+        primaryLocationTextView.setText(primaryLocation);
 
+        //offset Location for second TextView
         TextView offsetLocationTextView = (TextView) listItemView.findViewById(R.id.text_view_location_offset);
-        offsetLocationTextView.setText(primaryLocation);
+        offsetLocationTextView.setText(offsetLocation);
 
+        //create date Object to be formatted from Time long
         Date dateObject = new Date(currentEarthquake.getTime());
 
+        //Date Object is formatted by formatDate method and returned Date String sent to third TextView
         TextView dateTextView = (TextView) listItemView.findViewById(R.id.text_view_date);
-
         String formattedDate = formatDate(dateObject);
         dateTextView.setText(formattedDate);
 
+        //Date Object is formatted by formatTime method and returned Time String sent to fourth TextView
         TextView timeTextView = (TextView) listItemView.findViewById(R.id.text_view_time);
-
         String formattedTime = formatTime(dateObject);
         timeTextView.setText(formattedTime);
 
         return listItemView;
     }
 
+    //formats the date Object created by Time long to only display the date as String
     private String formatDate(Date dateObject) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd,yyyy");
         return dateFormat.format(dateObject);
     }
 
+    //formats the date Object created by Time long to only display the time as String
     private String formatTime(Date dateObject) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("h:mm a");
         return dateFormat.format(dateObject);
