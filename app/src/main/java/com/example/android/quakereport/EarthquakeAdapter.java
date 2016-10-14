@@ -39,10 +39,15 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
 
         //get Earthquake Place
         //separate place into offset and primary location by index of word "by"
+        //if data does not give an offset location we use Near the + primary
         String place = currentEarthquake.getPlace();
+        String offsetLocation = getContext().getString(R.string.near_the);
+        String primaryLocation = place;
         int index = place.indexOf("of");
-        String offsetLocation = place.substring(0, index+2);
-        String primaryLocation = place.substring(index+3);
+        if (index !=-1) {
+            offsetLocation = place.substring(0, index + 2);
+            primaryLocation = place.substring(index + 3);
+        }
 
         //primary Location String for first TextView
         TextView primaryLocationTextView = (TextView) listItemView.findViewById(R.id.text_view_location_primary);
