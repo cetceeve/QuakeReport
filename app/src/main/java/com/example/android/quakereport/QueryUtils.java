@@ -60,9 +60,10 @@ public final class QueryUtils {
                 double magnitude = earthquakeProperties.getDouble("mag");
                 String place = earthquakeProperties.optString("place");
                 long time = earthquakeProperties.getLong("time");
+                String url = earthquakeProperties.getString("url");
 
                 //new earthquake object is created and added to the earthquakes array list according to the current loop index
-                Earthquake newEarthquake = new Earthquake(magnitude, place, time);
+                Earthquake newEarthquake = new Earthquake(magnitude, place, time, url);
                 earthquakes.add(i, newEarthquake);
             }
 
