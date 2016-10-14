@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 /**
  * Created by fzeih on 11.10.2016.
+ * the adapter gets its information from the arrayList and via the Earthquake class public getterMethods
  */
 
 public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
