@@ -27,7 +27,7 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View listItemView = convertView;
-        if(listItemView == null) {
+        if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
         }
 
@@ -36,8 +36,16 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         TextView magnitudeTextView = (TextView) listItemView.findViewById(R.id.text_view_magnitude);
         magnitudeTextView.setText(currentEarthquake.getMagnitude());
 
-        TextView placeTextView = (TextView) listItemView.findViewById(R.id.text_view_place);
-        placeTextView.setText(currentEarthquake.getPlace());
+        String place = currentEarthquake.getPlace();
+        int index = place.indexOf("of");
+        String offsetLocation = place.substring(0, index+2);
+        String primaryLocation = place.substring(index+3);
+
+        TextView primaryLocationTextView = (TextView) listItemView.findViewById(R.id.text_view_location_primary);
+        primaryLocationTextView.setText(offsetLocation);
+
+        TextView offsetLocationTextView = (TextView) listItemView.findViewById(R.id.text_view_location_offset);
+        offsetLocationTextView.setText(primaryLocation);
 
         Date dateObject = new Date(currentEarthquake.getTime());
 
