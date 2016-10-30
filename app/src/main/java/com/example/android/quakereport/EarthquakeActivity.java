@@ -15,8 +15,11 @@
  */
 package com.example.android.quakereport;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +42,8 @@ public class EarthquakeActivity extends AppCompatActivity implements android.app
 
     private EarthquakeAdapter mAdapter;
 
+    private TextView mEmptyView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,14 +53,30 @@ public class EarthquakeActivity extends AppCompatActivity implements android.app
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
         //set empty view if Adapter is Empty
-        TextView emptyView = (TextView) findViewById(R.id.empty_view);
+        mEmptyView = (TextView) findViewById(R.id.empty_view);
         if (earthquakeListView != null) {
-            earthquakeListView.setEmptyView(emptyView);
+            earthquakeListView.setEmptyView(mEmptyView);
         }
 
-        //Loader initialized
-        getLoaderManager().initLoader(0, null, this);
-        Log.i(LOG_TAG, "Loader initialized!");
+        //Check for Network connection
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            //Initialize Loader
+            getLoaderManager().initLoader(0, null, this);
+            Log.i(LOG_TAG, "Loader initialized!");
+        } else {
+            //Hide ProgressBar
+            ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+            if (progressBar != null) {
+                progressBar.setVisibility(View.GONE);
+            }
+            //Display "No Internet connection."
+            if (mEmptyView != null) {
+                mEmptyView.setText(R.string.no_connection);
+            }
+        }
 
         // Create a new {@link ArrayAdapter} of earthquakes
         mAdapter = new EarthquakeAdapter(this, new ArrayList<Earthquake>());
@@ -112,9 +133,8 @@ public class EarthquakeActivity extends AppCompatActivity implements android.app
         }
 
         //set Text for empty view in case the adapter is empty
-        TextView emptyView = (TextView) findViewById(R.id.empty_view);
-        if (emptyView != null) {
-            emptyView.setText(R.string.empty_view);
+        if (mEmptyView != null) {
+            mEmptyView.setText(R.string.empty_view);
         }
     }
 
