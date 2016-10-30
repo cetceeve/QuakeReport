@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -44,6 +45,12 @@ public class EarthquakeActivity extends AppCompatActivity implements android.app
 
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
+
+        //set empty view if Adapter is Empty
+        TextView emptyView = (TextView) findViewById(R.id.empty_view);
+        if (earthquakeListView != null) {
+            earthquakeListView.setEmptyView(emptyView);
+        }
 
         //Loader initialized
         getLoaderManager().initLoader(0, null, this);
@@ -66,7 +73,7 @@ public class EarthquakeActivity extends AppCompatActivity implements android.app
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     //the clicked item is found by position and its url obtained
                     Earthquake earthquake = mAdapter.getItem(position);
-                    if (earthquake !=null) {
+                    if (earthquake != null) {
                         String earthquakeUrl = earthquake.getUrl();
                         //this method sends implicit intent to open a website
                         openWebPage(earthquakeUrl);
@@ -94,6 +101,12 @@ public class EarthquakeActivity extends AppCompatActivity implements android.app
 
         if (earthquakeList != null && !earthquakeList.isEmpty()) {
             mAdapter.addAll(earthquakeList);
+        }
+
+        //set Text for empty view in case the adapter is empty
+        TextView emptyView = (TextView) findViewById(R.id.empty_view);
+        if (emptyView != null) {
+            emptyView.setText(R.string.empty_view);
         }
         Log.i(LOG_TAG, "Loader finished. UI updated!");
     }
