@@ -16,8 +16,8 @@
 package com.example.android.quakereport;
 
 import android.content.Intent;
+import android.content.Loader;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -29,7 +29,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EarthquakeActivity extends AppCompatActivity {
+public class EarthquakeActivity extends AppCompatActivity implements android.app.LoaderManager.LoaderCallbacks<List<Earthquake>> {
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
 
@@ -42,11 +42,11 @@ public class EarthquakeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
 
-        // Download earthquake data
-        new DownloadTask().execute(USGS_REQUEST_URL);
-
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
+
+        //Loader initialized
+        getLoaderManager().initLoader(0, null, this);
 
         // Create a new {@link ArrayAdapter} of earthquakes
         mAdapter = new EarthquakeAdapter(this, new ArrayList<Earthquake>());
@@ -78,32 +78,35 @@ public class EarthquakeActivity extends AppCompatActivity {
         }
     }
 
+    //Create new earthquake loader for this activity
+    @Override
+    public Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle) {
+        return new EarthquakeLoader(EarthquakeActivity.this, USGS_REQUEST_URL);
+    }
+
+    //update UI when loader is finished
+    @Override
+    public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> earthquakeList) {
+        //Clear the Adapter before updating UI with new data
+        mAdapter.clear();
+
+        if (earthquakeList != null && !earthquakeList.isEmpty()) {
+            mAdapter.addAll(earthquakeList);
+        }
+    }
+
+    //clears data on loader reset
+    @Override
+    public void onLoaderReset(Loader<List<Earthquake>> loader) {
+        mAdapter.clear();
+    }
+
     //implicit intent to load a web page
     public void openWebPage(String url) {
         Uri webpage = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
-        }
-    }
-
-    private class DownloadTask extends AsyncTask<String, Void, List<Earthquake>> {
-        @Override
-        protected List<Earthquake> doInBackground(String... urls) {
-            if (urls.length < 1 || urls[0] == null) {
-                return null;
-            }
-            return QueryUtils.fetchEarthquakeData(urls[0]);
-        }
-
-        @Override
-        protected void onPostExecute(List<Earthquake> earthquakeList) {
-            //Clear the Adapter before updating UI with new data
-            mAdapter.clear();
-
-            if (earthquakeList != null && !earthquakeList.isEmpty()) {
-                mAdapter.addAll(earthquakeList);
-            }
         }
     }
 }
