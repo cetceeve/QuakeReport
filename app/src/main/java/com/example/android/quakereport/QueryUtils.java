@@ -91,6 +91,7 @@ public final class QueryUtils {
             Log.e(LOG_TAG, "Error closing input stream", e);
         }
 
+        Log.i(LOG_TAG, "Finished fetching data returning to loader");
         //Extract relevant fields from JSON Response
         return extractEarthquakes(jsonResponse);
     }
