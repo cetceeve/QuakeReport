@@ -81,6 +81,13 @@ public final class QueryUtils {
 
     //Query USGS Dataset and return an Earthquake object
     public static List<Earthquake> fetchEarthquakeData(String requestUrl) {
+        //for testing purposes
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         //Create Url object
         URL url = createUrl(requestUrl);
 

@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -102,13 +103,19 @@ public class EarthquakeActivity extends AppCompatActivity implements android.app
         if (earthquakeList != null && !earthquakeList.isEmpty()) {
             mAdapter.addAll(earthquakeList);
         }
+        Log.i(LOG_TAG, "Loader finished. UI updated!");
+
+        //Hide ProgressBar
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        if (progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
 
         //set Text for empty view in case the adapter is empty
         TextView emptyView = (TextView) findViewById(R.id.empty_view);
         if (emptyView != null) {
             emptyView.setText(R.string.empty_view);
         }
-        Log.i(LOG_TAG, "Loader finished. UI updated!");
     }
 
     //clears data on loader reset
