@@ -114,6 +114,7 @@ public class EarthquakeActivity extends AppCompatActivity implements android.app
     //Create new earthquake loader for this activity
     @Override
     public Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle) {
+
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         String minMagnitude = sharedPrefs.getString(
                 getString(R.string.settings_min_magnitude_key),
@@ -130,7 +131,7 @@ public class EarthquakeActivity extends AppCompatActivity implements android.app
         uriBuilder.appendQueryParameter("format", "geojson");
         uriBuilder.appendQueryParameter("limit", "10");
         uriBuilder.appendQueryParameter("minmag", minMagnitude);
-        uriBuilder.appendQueryParameter("orderby", "time");
+        uriBuilder.appendQueryParameter("orderby", orderBy);
 
         Log.i(LOG_TAG, "Loader created!");
         return new EarthquakeLoader(this, uriBuilder.toString());
